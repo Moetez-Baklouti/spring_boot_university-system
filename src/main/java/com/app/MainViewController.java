@@ -25,7 +25,8 @@ public class MainViewController {
     }
 
     @GetMapping
-    public String GetMainPage() {
+    public String GetMainPage(Model model) {
+        model.addAttribute("main-page",true);
         return "index";
     }
     @GetMapping(path = "/students")
@@ -74,7 +75,7 @@ public class MainViewController {
                 "Sessions"
         );
         List<Boolean> complexType = List.of(false,false,true,true);
-        List<Group> groups = groupService.GetGroups();
+        List<Group> groups = groupService.getGroups();
         List<Map<String, Object>> rows = new ArrayList<>();
         for (Group group : groups) {
             Map<String, Object> map = Map.of(

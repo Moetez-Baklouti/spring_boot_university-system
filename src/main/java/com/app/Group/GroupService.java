@@ -14,7 +14,7 @@ public class GroupService {
         this.groupRepository = groupRepository;
     }
 
-    public List<Group> GetGroups() {
+    public List<Group> getGroups() {
         return groupRepository.findAll();
     }
 }
