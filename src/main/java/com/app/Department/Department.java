@@ -1,4 +1,4 @@
-package com.app.Departement;
+package com.app.Department;
 
 import com.app.Teacher.Teacher;
 import com.app.University.University;
@@ -9,31 +9,31 @@ import java.util.Objects;
 
 @Table(name = "departements")
 @Entity
-public class Departement {
+public class Department {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "departement_sequence")
-    @SequenceGenerator(name = "departement_sequence", sequenceName = "departement_sequence", initialValue = 10, allocationSize = 10)
-    @Column(name = "Departement_Code", nullable = false)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "department_sequence")
+    @SequenceGenerator(name = "department_sequence", sequenceName = "department_sequence", initialValue = 10, allocationSize = 10)
+    @Column(name = "Department_Code", nullable = false)
     private Long code;
 
-    @Column(name = "Departement_Name", unique = true, length = 60)
+    @Column(name = "Department_Name", unique = true, length = 60)
     private String name;
 
-    @OneToMany(mappedBy = "departement", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "department", cascade = CascadeType.ALL)
     private List<Teacher> teachers;
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "university_code")
     private University university;
 
-    public Departement() {
+    public Department() {
     }
 
-    public Departement(String name) {
+    public Department(String name) {
         this.name = name;
     }
 
-    public Departement(String name, University university) {
+    public Department(String name, University university) {
         this.name = name;
         this.university = university;
     }
@@ -73,8 +73,8 @@ public class Departement {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Departement)) return false;
-        Departement that = (Departement) o;
+        if (!(o instanceof Department)) return false;
+        Department that = (Department) o;
         return Objects.equals(code, that.code);
     }
 
@@ -85,11 +85,15 @@ public class Departement {
 
     @Override
     public String toString() {
-        return "Departement{" +
+        return "Department{" +
                 "code=" + code +
                 ", name='" + name + '\'' +
                 ", university=" + university +
                 ", teachers=" + teachers +
                 '}';
+    }
+
+    public String toString(int i) {
+        return name;
     }
 }

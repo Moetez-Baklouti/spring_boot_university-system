@@ -140,4 +140,8 @@ public class Session {
                 ", course=" + course +
                 '}';
     }
+
+    public String toString(int i) {
+        return date.toString() + " " + time.toString() + " in " + classroom.getClassroom_name();
+    }
 }

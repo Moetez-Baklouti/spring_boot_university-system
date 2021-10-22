@@ -1,6 +1,6 @@
 package com.app.Teacher;
 
-import com.app.Departement.Departement;
+import com.app.Department.Department;
 import com.app.Session.Session;
 
 import javax.persistence.*;
@@ -31,8 +31,8 @@ public class Teacher {
     private Long phone_number;
 
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "Departement_Code")
-    private Departement departement;
+    @JoinColumn(name = "Department_Code")
+    private Department department;
 
     @OneToMany(mappedBy = "teacher", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Session> sessions;
@@ -50,13 +50,13 @@ public class Teacher {
         this.email_adress = email_adress;
     }
 
-    public Teacher(String first_name, String last_name, String diploma, String email_adress, Long phone_number, Departement departement, String adress) {
+    public Teacher(String first_name, String last_name, String diploma, String email_adress, Long phone_number, Department department, String adress) {
         this.first_name = first_name;
         this.last_name = last_name;
         this.diploma = diploma;
         this.email_adress = email_adress;
         this.phone_number = phone_number;
-        this.departement = departement;
+        this.department = department;
         this.adress = adress;
     }
 
@@ -124,12 +124,12 @@ public class Teacher {
         this.diploma = diploma;
     }
 
-    public Departement getDepartement() {
-        return departement;
+    public Department getDepartment() {
+        return department;
     }
 
-    public void setDepartement(Departement departement) {
-        this.departement = departement;
+    public void setDepartment(Department departement) {
+        this.department = department;
     }
 
     @Override
@@ -154,9 +154,13 @@ public class Teacher {
                 ", diploma='" + diploma + '\'' +
                 ", email_adress='" + email_adress + '\'' +
                 ", phone_number=" + phone_number +
-                ", departement=" + departement +
+                ", departement=" + department +
                 ", sessions=" + sessions +
                 ", adress='" + adress + '\'' +
                 '}';
+    }
+
+    public String toString(int i) {
+        return first_name + " " + last_name;
     }
 }

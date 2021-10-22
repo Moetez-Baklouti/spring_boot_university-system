@@ -1,6 +1,6 @@
 package com.app.University;
 
-import com.app.Departement.Departement;
+import com.app.Department.Department;
 
 import javax.persistence.*;
 import java.util.List;
@@ -21,7 +21,7 @@ public class University {
     private String website;
 
     @OneToMany(mappedBy = "university")
-    private List<Departement> departements;
+    private List<Department> departments;
 
     public University() {
     }
@@ -59,12 +59,12 @@ public class University {
         this.id = code;
     }
 
-    public List<Departement> getDepartements() {
-        return departements;
+    public List<Department> getDepartments() {
+        return departments;
     }
 
-    public void setDepartements(List<Departement> departements) {
-        this.departements = departements;
+    public void setDepartments(List<Department> departements) {
+        this.departments = departements;
     }
 
     @Override
@@ -86,7 +86,7 @@ public class University {
                 "code='" + id + '\'' +
                 ", name='" + name + '\'' +
                 ", website='" + website + '\'' +
-                ", departements=" + departements +
+                ", departements=" + departments +
                 '}';
     }
 }
