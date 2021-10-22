@@ -1,0 +1,113 @@
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <link crossorigin="anonymous" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" rel="stylesheet">
+    <link th:href="@{/css/index.css}" rel="stylesheet">
+</head>
+<body class="bg-pan-left">
+<div class="draggable" id="drag"></div>
+<div id="container">
+    <h5 th:text="${Title}"></h5>
+    <div class="table-responsive">
+        <table class="table">
+            <thead>
+            <tr>
+                <th th:each="header: ${headers}" th:text="${header}"></th>
+            </tr>
+            </thead>
+               <tbody th:if="${ not#lists.isEmpty(rows)}">
+               <tr th:each="row: ${rows}">
+                   <span th:each="header, stat : ${headers}">
+                       <span th:switch="${complexType[stat.index]}">
+                           <span th:case="${true}">
+                               <td >
+                                   <div class="scroll" th:each="item : ${row.get(header)}">
+                                       <p th:text="${item.toString(1)}"></p>
+                                   </div>
+                               </td>
+                           </span>
+                           <span th:case="${false}">
+                               <td th:text="${row.get(header)}"></td>
+                           </span>
+                       </span>
+                   </span>
+               </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+</body>
+<script type="module">
+    import interact from 'https://cdn.interactjs.io/v1.9.20/interactjs/index.js'
+
+    const position = {x: 0, y: 0}
+    const parent = {x: 0, y: 0}
+    const container = document.getElementById('container');
+    interact('.draggable').draggable({
+        listeners: {
+            start(event) {
+                console.log(event.type, event.target)
+            },
+            move(event) {
+                position.x += event.dx
+                position.y += event.dy
+
+                parent.x += event.dx
+                parent.y += event.dy
+
+                container.style.transform =
+                    `translate(${parent.x}px, ${parent.y}px)`
+
+                event.target.style.transform =
+                    `translate(${position.x}px, ${position.y}px)`
+            },
+        },
+        modifiers: [
+            interact.modifiers.restrictRect({
+                restriction: 'parent',
+                endOnly: true
+            })
+        ],
+        inertia: true,
+    })
+        .resizable({
+            edges: {left: true, right: true},
+
+            listeners: {
+                move(event) {
+                    var target = event.target
+
+                    target.style.width = event.rect.width + 'px'
+                    target.style.height = event.rect.height + 'px'
+
+                    container.style.width = event.rect.width + 'px'
+                    container.style.height = event.rect.height + 'px'
+
+                    position.x += event.deltaRect.left
+                    parent.x += event.deltaRect.left
+
+
+                    target.style.transform = 'translate(' + position.x + 'px,' + position.y + 'px)'
+
+                    target.setAttribute('data-x', position.x)
+                    target.setAttribute('data-y', position.y)
+
+                    container.style.transform = 'translate(' + parent.x + 'px,' + parent.y + 'px)'
+
+                    container.setAttribute('data-x', parent.x)
+                    container.setAttribute('data-y', parent.y)
+                }
+            },
+            modifiers: [
+                interact.modifiers.restrictEdges({
+                    outer: 'parent'
+                }),
+
+                interact.modifiers.restrictSize({
+                    min: {width: 120}
+                })
+            ],
+            inertia: true
+        })
+</script>
+</html>

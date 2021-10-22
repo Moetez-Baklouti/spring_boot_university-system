@@ -1,0 +1,78 @@
+.bg-pan-left {
+    background: rgb(255, 162, 190);
+    background: linear-gradient(71deg, rgba(255, 162, 190, 1) 0%, rgba(255, 162, 190, 1) 17%, rgba(231, 189, 232, 1) 29%, rgba(255, 183, 189, 1) 42%, rgba(204, 247, 241, 1) 57%, rgba(231, 189, 232, 1) 71%, rgba(255, 162, 190, 1) 80%);
+    background-size: 600% 600%;
+    background-repeat: repeat;
+    -webkit-animation: bg-pan-right 8s infinite both;
+    animation: bg-pan-right 8s infinite both
+}
+
+@-webkit-keyframes bg-pan-right {
+    0% {
+        background-position: 0 50%
+    }
+
+    100% {
+        background-position: 100% 50%
+    }
+}
+
+@keyframes bg-pan-right {
+    0% {
+        background-position: 0 50%
+    }
+
+    100% {
+        background-position: 100% 50%
+    }
+}
+
+::-webkit-scrollbar {
+    width: 20px;
+}
+
+::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 5px grey;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #29e;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: rgb(42, 120, 175);
+}
+div.scroll {
+    height: 50px;
+    width: max-content;
+    overflow-y: auto;
+    overflow-x: hidden;
+    white-space: nowrap;
+    padding-right: 50px;
+}
+#drag:hover,
+#drag:active {
+    background-color: rgb(34, 238, 187);
+    border: 3px;
+    border-color: black;
+    border-style: dashed;
+    border-right: 2px dotted black;
+    border-left: 2px dotted black;
+}
+
+#container {
+    width: 90%;
+    text-align: center;
+}
+
+#drag {
+    width: 90%;
+    height: 25px;
+    background-color: #29e;
+    color: white;
+    padding: 1%;
+    touch-action: none;
+    user-select: none;
+    transform: translate(0px, 0px);
+    border: 3px solid transparent;
+}
