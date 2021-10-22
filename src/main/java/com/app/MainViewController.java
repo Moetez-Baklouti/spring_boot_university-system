@@ -24,6 +24,10 @@ public class MainViewController {
         this.groupService = groupService;
     }
 
+    @GetMapping
+    public String GetMainPage() {
+        return "index";
+    }
     @GetMapping(path = "/students")
     public String GetStudents(Model model) {
         model.addAttribute("Title","Students");
@@ -87,14 +91,5 @@ public class MainViewController {
         return "index";
     }
 
-    private String groupsUtilHTML(String name,List<Object> list) {
-        StringBuilder html = new StringBuilder("<button id=\"btnGroupDrop1\" type=\"button\" class=\"btn btn-secondary dropdown-toggle\" data-toggle=\""+name+"\" aria-haspopup=\"true\" aria-expanded=\"false\">\n Dropdown\n</button>" +
-                "<div class=\"dropdown-menu\" aria-labelledby=\"btnGroupDrop1\">\n");
-        for (Object item : list) {
-            html.append("<a class=\"dropdown-item\">" + item.toString() + "</a>\n");
-        }
-        html.append( "</div>");
-        return html.toString();
-    }
 }
 
