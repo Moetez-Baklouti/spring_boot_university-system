@@ -26,7 +26,7 @@ public class MainViewController {
 
     @GetMapping
     public String GetMainPage(Model model) {
-        model.addAttribute("main-page",true);
+        model.addAttribute("mainpage",true);
         return "index";
     }
     @GetMapping(path = "/students")
