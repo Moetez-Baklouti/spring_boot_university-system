@@ -17,4 +17,16 @@ public class DepartmentService {
     public List<Department> getDepartments() {
         return departmentRepository.findAll();
     }
+
+    public Department saveDepartment(Department department) {
+        return departmentRepository.saveAndFlush(department);
+    }
+
+    public List<Department> saveDepartments(List<Department> departments) {
+        return departmentRepository.saveAllAndFlush(departments);
+    }
+
+    public void deleteAll() {
+        departmentRepository.deleteAll();
+    }
 }

@@ -12,7 +12,7 @@ import java.util.Objects;
 public class Group {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "group_id", nullable = false)
+    @Column(name = "group_id")
     private Long id;
 
     @Column(name = "Group_Title", nullable = false, unique = true, length = 8)

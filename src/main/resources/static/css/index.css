@@ -76,3 +76,7 @@ div.scroll {
     transform: translate(0px, 0px);
     border: 3px solid transparent;
 }
+
+.nav-link.active {
+    font-weight: bold;
+}

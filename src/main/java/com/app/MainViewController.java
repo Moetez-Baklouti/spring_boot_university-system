@@ -50,7 +50,26 @@ public class MainViewController {
 
     @GetMapping
     public String GetMainPage(Model model) {
+        model.addAttribute("Title","Spring boot");
         model.addAttribute("mainpage",true);
+        /*departmentService.deleteAll();
+        universityService.deleteAll();
+        University u = new University("ISG","http://www.isg.rnu.tn/");
+        List<Department> departments = List.of(
+                new Department("Computer science",u),
+                new Department("Economics",u),
+                new Department("Finance and accounting",u),
+                new Department("Management",u),
+                new Department("Human Resources",u),
+                new Department("Marketing",u)
+        );
+        u.setDepartments(departments);
+        u = universityService.saveUniversity(u);
+        /*for (Department department : departments){
+            department.setUniversity(u);
+            System.out.println(u.getId());
+        }
+        departments = departmentService.saveDepartments(departments);*/
         return "index";
     }
 
@@ -189,10 +208,10 @@ public class MainViewController {
         List<Map<String, Object>> rows = new ArrayList<>();
         for (Department departement : departements) {
             Map<String, Object> map = Map.of(
-                    headers.get(0), departement.getCode().toString(),
+                    headers.get(0), departement.getId().toString(),
                     headers.get(1), departement.getName(),
                     headers.get(2), departement.getTeachers(),
-                    headers.get(3), departement.getUniversity()
+                    headers.get(3), departement.getUniversity().getName()
             );
             rows.add(map);
         }
@@ -286,7 +305,7 @@ public class MainViewController {
         List<Map<String, Object>> rows = new ArrayList<>();
         for (University university : universities) {
             Map<String, Object> map = Map.of(
-                    headers.get(0), university.getCode().toString(),
+                    headers.get(0), university.getId().toString(),
                     headers.get(1), university.getName(),
                     headers.get(2), university.getWebsite(),
                     headers.get(3), university.getDepartments()

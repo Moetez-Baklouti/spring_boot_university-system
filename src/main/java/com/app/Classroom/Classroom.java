@@ -11,7 +11,7 @@ import java.util.Objects;
 public class Classroom {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "Classroom_ID", nullable = false)
+    @Column(name = "Classroom_ID")
     private Long id;
 
     @Column(name = "Classroom_Name", nullable = false, unique = true, length = 3)

@@ -12,7 +12,7 @@ import java.util.Objects;
 public class Teacher {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "Teacher_ID", nullable = false)
+    @Column(name = "Teacher_ID")
     private Long id;
 
     @Column(name = "First_Name", nullable = false, length = 30)

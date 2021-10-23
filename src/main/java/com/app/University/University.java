@@ -3,6 +3,7 @@ package com.app.University;
 import com.app.Department.Department;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -11,7 +12,7 @@ import java.util.Objects;
 public class University {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "university_Code")
+    @Column(name = "university_code")
     private Long id;
 
     @Column(name = "university_name", length = 80)
@@ -21,7 +22,7 @@ public class University {
     private String website;
 
     @OneToMany(mappedBy = "university")
-    private List<Department> departments;
+    private List<Department> departments = new ArrayList<>();
 
     public University() {
     }
@@ -51,12 +52,12 @@ public class University {
         this.name = name;
     }
 
-    public Long getCode() {
+    public Long getId() {
         return id;
     }
 
-    public void setCode(Long code) {
-        this.id = code;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public List<Department> getDepartments() {

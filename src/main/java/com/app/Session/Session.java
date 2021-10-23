@@ -15,7 +15,7 @@ import java.util.Objects;
 @Entity
 public class Session {
     @Id
-    @Column(name = "Session_ID", nullable = false)
+    @Column(name = "Session_ID")
     private Long id;
 
     @DateTimeFormat(pattern = "dd/MM/yyyy")

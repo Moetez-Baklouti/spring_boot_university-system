@@ -1,10 +1,15 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <head>
+    <meta charset="utf-8">
     <link crossorigin="anonymous" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.0.0-beta2/css/bootstrap.min.css">
     <link th:href="@{/css/index.css}" rel="stylesheet">
+    <link rel="icon" th:href="@{/images/isg.png}" type="image/icon type">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <meta property="og:type" content="website">
+    <meta name="description" content="Spring boot university system by Moetez Baklouti created to manage universities, departments, instructors, sessions, courses, classrooms, groups, students">
+    <title th:text="${Title}"></title>
 </head>
 
 <body class="bg-pan-left">
@@ -43,8 +48,8 @@
                        <span th:switch="${complexType[stat.index]}">
                            <span th:case="${true}">
                                <td >
-                                   <div class="scroll" th:each="item : ${row.get(header)}">
-                                       <p th:text="${item.toString(1)}"></p>
+                                   <div class="scroll">
+                                       <p style="margin: auto" th:each="item : ${row.get(header)}" th:text="${item.toString(1)}"></p>
                                    </div>
                                </td>
                            </span>

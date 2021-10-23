@@ -11,12 +11,11 @@ import java.util.Objects;
 @Entity
 public class Department {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "department_sequence")
-    @SequenceGenerator(name = "department_sequence", sequenceName = "department_sequence", initialValue = 10, allocationSize = 10)
-    @Column(name = "Department_Code", nullable = false)
-    private Long code;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "department_code")
+    private Long id;
 
-    @Column(name = "Department_Name", unique = true, length = 60)
+    @Column(name = "department_name", unique = true, length = 60)
     private String name;
 
     @OneToMany(mappedBy = "department", cascade = CascadeType.ALL)
@@ -38,12 +37,18 @@ public class Department {
         this.university = university;
     }
 
-    public Long getCode() {
-        return code;
+    public Department(Long id, String name, University university) {
+        this.id = id;
+        this.name = name;
+        this.university = university;
     }
 
-    public void setCode(Long code) {
-        this.code = code;
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long code) {
+        this.id = code;
     }
 
     public String getName() {
@@ -75,18 +80,18 @@ public class Department {
         if (this == o) return true;
         if (!(o instanceof Department)) return false;
         Department that = (Department) o;
-        return Objects.equals(code, that.code);
+        return Objects.equals(id, that.id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(code);
+        return Objects.hash(id);
     }
 
     @Override
     public String toString() {
         return "Department{" +
-                "code=" + code +
+                "code=" + id +
                 ", name='" + name + '\'' +
                 ", university=" + university +
                 ", teachers=" + teachers +

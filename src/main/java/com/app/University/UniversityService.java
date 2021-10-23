@@ -17,4 +17,12 @@ public class UniversityService {
     public List<University> getUniversities() {
         return universityRepository.findAll();
     }
+
+    public University saveUniversity(University university) {
+        return universityRepository.saveAndFlush(university);
+    }
+
+    public void deleteAll() {
+        universityRepository.deleteAll();
+    }
 }

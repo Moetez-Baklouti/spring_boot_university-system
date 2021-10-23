@@ -10,7 +10,7 @@ import java.util.Objects;
 @Entity
 public class Course {
     @Id
-    @Column(name = "CourseID", nullable = false)
+    @Column(name = "CourseID")
     private Long id;
 
     @Column(name = "Course_Title", nullable = false, length = 70)
