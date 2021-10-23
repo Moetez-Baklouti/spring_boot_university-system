@@ -201,7 +201,7 @@ public class MainViewController {
                 "Department Code",
                 "Department Name",
                 "Instructors",
-                "University Code"
+                "University"
         );
         List<Boolean> complexType = List.of(false,false,true,false);
         List<Department> departements = departmentService.getDepartments();
