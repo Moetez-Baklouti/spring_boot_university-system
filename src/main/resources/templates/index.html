@@ -4,11 +4,14 @@
     <meta charset="utf-8">
     <link crossorigin="anonymous" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.0.0-beta2/css/bootstrap.min.css">
+    <link crossorigin="anonymous" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" rel="stylesheet">
     <link th:href="@{/css/index.css}" rel="stylesheet">
     <link rel="icon" th:href="@{/images/isg.png}" type="image/icon type">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <meta property="og:type" content="website">
     <meta name="description" content="Spring boot university system by Moetez Baklouti created to manage universities, departments, instructors, sessions, courses, classrooms, groups, students">
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
     <title th:text="${Title}"></title>
 </head>
 
@@ -26,7 +29,11 @@
                 <li class="nav-item"><a th:class="${Title == 'Courses'} ? 'nav-link active' : 'nav-link'" th:href="${Title == 'Courses'} ? '#' : @{/courses}">Courses</a></li>
                 <li class="nav-item"><a th:class="${Title == 'Groups'} ? 'nav-link active' : 'nav-link'" th:href="${Title == 'Groups'} ? '#' : @{/groups}">Groups</a></li>
                 <li class="nav-item"><a th:class="${Title == 'Students'} ? 'nav-link active' : 'nav-link'" th:href="${Title == 'Students'} ? '#' : @{/students}">Students</a></li>
-                <li style="margin-left: 50px"><button th:if="${Title != null}" type="button" class="btn btn-outline-secondary" th:text="${'Add ' + (Title == 'Universities' ? 'University' :  (#strings.substring(Title, 0, #strings.length(Title)-1)))}"></button></li>
+                <li style="margin-left: 50px" th:if="${mainpage == null}">
+                    <button class="btn btn-outline-secondary" data-bs-target="#Modal" data-bs-toggle="modal"
+                            th:text="${'Add ' + (Title == 'Universities' ? 'University' :  (#strings.substring(Title, 0, #strings.length(Title)-1)))}"
+                            type="button"></button>
+                </li>
             </ul>
         </div>
     </div>
@@ -59,10 +66,605 @@
                        </span>
                    </span>
                </tr>
-            </tbody>
+               </tbody>
         </table>
     </div>
 </div>
+</div>
+<!-- Modal -->
+<div aria-hidden="true" aria-labelledby="ModalLabel" class="modal fade" id="Modal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title"
+                    id="ModalLabel" th:text="${'New ' + (Title == 'Universities' ? 'University' :  (#strings.substring(Title, 0, #strings.length(Title)-1)))}"></h5>
+                <button aria-label="Close" class="btn-close" data-bs-dismiss="modal" type="button"></button>
+            </div>
+
+            <!-- Content -->
+            <div class="modal-body" th:if="${Title == 'Universities'}">
+
+                <!-- University Form -->
+
+                <form id="form" method="POST">
+                    <div class="form-group row">
+                        <div class="col-8">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text">
+                                        <i class="fa fa-hashtag"></i>
+                                    </div>
+                                </div>
+                                <input aria-describedby="codeHelpBlock" class="form-control" disabled id="code" name="code"
+                                       placeholder="University Code" type="text">
+                                <div class="input-group-append">
+                                    <div class="input-group-text">
+                                        <i class="fa fa-barcode"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <span class="form-text text-muted" id="codeHelpBlock">Automatically generated</span>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-8">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text">
+                                        <i class="fa fa-university"></i>
+                                    </div>
+                                </div>
+                                <input class="form-control" id="name" name="name" placeholder="University Name"
+                                       required="required" type="text">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-8">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text">
+                                        <i class="fa fa-internet-explorer"></i>
+                                    </div>
+                                </div>
+                                <input class="form-control" id="website" name="website" placeholder="University Website"
+                                       required="required" type="text">
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <!-- University Form -->
+
+            <div class="modal-body" th:if="${Title == 'Departments'}">
+
+                <!-- Department Form -->
+
+                <form id="form" method="POST">
+                    <div class="form-group row">
+                        <div class="col-8">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text">
+                                        <i class="fa fa-hashtag"></i>
+                                    </div>
+                                </div>
+                                <input aria-describedby="codeHelpBlock" class="form-control" disabled id="code"
+                                       name="code" placeholder="Department Code" type="text">
+                                <div class="input-group-append">
+                                    <div class="input-group-text">
+                                        <i class="fa fa-barcode"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <span class="form-text text-muted" id="codeHelpBlock">Automatically generated</span>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-8">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text">
+                                        <i class="fa fa-black-tie"></i>
+                                    </div>
+                                </div>
+                                <input class="form-control" id="name" name="name" placeholder="Department Name"
+                                       required="required" type="text">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-8">
+                            <select class="custom-select" id="select" name="select">
+                                <option value="Select University">University</option>
+                                <option value=""></option>
+                                <option value=""></option>
+                            </select>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <!-- Department Form -->
+
+            <div class="modal-body" th:if="${Title == 'Instructors'}">
+
+                <!-- Instructor Form -->
+                <form id="form" method="POST">
+                    <div class="form-group row">
+                        <div class="col-8">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text">
+                                        <i class="fa fa-hashtag"></i>
+                                    </div>
+                                </div>
+                                <input aria-describedby="codeHelpBlock" class="form-control" disabled id="code"
+                                       name="code" placeholder="Instructor ID" type="text">
+                                <div class="input-group-append">
+                                    <div class="input-group-text">
+                                        <i class="fa fa-barcode"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <span class="form-text text-muted" id="codeHelpBlock">Automatically generated</span>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-8">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text">
+                                        <i class="fa fa-id-badge"></i>
+                                    </div>
+                                </div>
+                                <input class="form-control" id="firstname" name="firstname" placeholder="First Name"
+                                       required="required" type="text">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-8">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text">
+                                        <i class="fa fa-id-badge"></i>
+                                    </div>
+                                </div>
+                                <input class="form-control" id="lastname" name="lastname" placeholder="Last Name"
+                                       required="required" type="text">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-8">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text">
+                                        <i class="fa fa-graduation-cap"></i>
+                                    </div>
+                                </div>
+                                <input class="form-control" id="diploma" name="diploma" placeholder="Diploma"
+                                       required="required" type="text">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-8">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text">+216</div>
+                                </div>
+                                <input class="form-control" id="phone" name="phone" placeholder="Phone Number"
+                                       required="required" type="text">
+                                <div class="input-group-append">
+                                    <div class="input-group-text">
+                                        <i class="fa fa-phone"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-8">
+                            <select class="custom-select" id="department" name="department">
+                                <option value="Department">Department</option>
+                                <option value=""></option>
+                                <option value=""></option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-8">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text">
+                                        <i class="fa fa-envelope"></i>
+                                    </div>
+                                </div>
+                                <input class="form-control" id="email" name="email" placeholder="Email Adress"
+                                       required="required" type="text">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label>Adress</label>
+                        <div class="col-8">
+                            <textarea aria-describedby="adressHelpBlock" class="form-control" cols="40" id="adress" name="adress"
+                                      rows="4"></textarea>
+                            <span class="form-text text-muted" id="adressHelpBlock">Adress</span>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <!-- Instructor Form -->
+
+            <div class="modal-body" th:if="${Title == 'Sessions'}">
+
+                <!-- Session Form -->
+
+                <form id="form" method="POST">
+                    <div class="form-group row">
+                        <div class="col-8">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text">
+                                        <i class="fa fa-hashtag"></i>
+                                    </div>
+                                </div>
+                                <input class="form-control" disabled id="code" name="code" placeholder="Session ID"
+                                       type="text">
+                                <div class="input-group-append">
+                                    <div class="input-group-text">
+                                        <i class="fa fa-barcode"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <span class="form-text text-muted" id="codeHelpBlock">Automatically generated</span>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label>Session Date</label>
+                        <div class="col-8">
+                            <input id="date" name="date" required type="date">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label>Session Time</label>
+                        <div class="col-8">
+                            <input id="time" max="18:00" min="08:00" name="time" required type="time">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-8">
+                            <select class="custom-select" id="instructor" name="instructor" required="required">
+                                <option value="instructor">instructor</option>
+                                <option value=""></option>
+                                <option value=""></option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-8">
+                            <select class="custom-select" id="classroom" name="classroom">
+                                <option value="Classroom">Classroom</option>
+                                <option value="duck">Duck</option>
+                                <option value="fish">Fish</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-8">
+                            <select class="custom-select" id="course" name="course">
+                                <option value="Course">Course</option>
+                                <option value=""></option>
+                                <option value=""></option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-8">
+                            <select class="custom-select" id="group" name="group">
+                                <option value="Group">Group</option>
+                                <option value="duck">Duck</option>
+                                <option value="fish">Fish</option>
+                            </select>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <!-- Session Form -->
+
+            <div class="modal-body" th:if="${Title == 'Classrooms'}">
+
+                <!-- Classroom Form -->
+                <form id="form" method="POST">
+                    <div class="form-group row">
+                        <div class="col-8">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text">
+                                        <i class="fa fa-hashtag"></i>
+                                    </div>
+                                </div>
+                                <input aria-describedby="codeHelpBlock" class="form-control" disabled id="code" name="code"
+                                       placeholder="Classroom ID" type="text">
+                                <div class="input-group-append">
+                                    <div class="input-group-text">
+                                        <i class="fa fa-barcode"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <span class="form-text text-muted" id="codeHelpBlock">Automatically generated</span>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-8">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text">
+                                        <i class="fa fa-university"></i>
+                                    </div>
+                                </div>
+                                <input class="form-control" id="name" name="name" placeholder="Classroom Name"
+                                       required="required" type="text">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-8">
+                            <select class="custom-select" id="type" name="type">
+                                <option value="-1">Classroom Type</option>
+                                <option value="0">Lecture Classroom</option>
+                                <option value="1">Auditoria Lecture Classroom</option>
+                                <option value="2">Seminar Classroom</option>
+                                <option value="3">Case Study Classroom</option>
+                                <option value="4">Interactive Computer Classroom</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-8">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text">
+                                        <i class="fa fa-group"></i>
+                                    </div>
+                                </div>
+                                <input aria-describedby="capacityHelpBlock" class="form-control" id="capacity" max="150"
+                                       min="20" name="capacity" placeholder="Classroom Capacity" required="required"
+                                       type="number">
+                                <div class="input-group-append">
+                                    <div class="input-group-text"></div>
+                                </div>
+                            </div>
+                            <span class="form-text text-muted" id="capacityHelpBlock">Numbers only</span>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <!-- Classroom Form -->
+
+            <div class="modal-body" th:if="${Title == 'Courses'}">
+
+                <!-- Course Form -->
+
+                <form id="form" method="POST">
+                    <div class="form-group row">
+                        <div class="col-8">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text">
+                                        <i class="fa fa-hashtag"></i>
+                                    </div>
+                                </div>
+                                <input aria-describedby="codeHelpBlock" class="form-control" disabled id="code" name="code"
+                                       placeholder="Course ID" type="text">
+                                <div class="input-group-append">
+                                    <div class="input-group-text">
+                                        <i class="fa fa-barcode"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <span class="form-text text-muted" id="codeHelpBlock">Automatically generated</span>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-8">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text">
+                                        <i class="fa fa-book"></i>
+                                    </div>
+                                </div>
+                                <input class="form-control" id="name" name="name" placeholder="Course Title" required="required"
+                                       type="text">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-8">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text">
+                                        <i class="fa fa-sort-numeric-asc"></i>
+                                    </div>
+                                </div>
+                                <input aria-describedby="capacityHelpBlock" class="form-control" id="capacity" max="9"
+                                       min="1" name="capacity" placeholder="Course_Coefficient" required="required"
+                                       type="number">
+                                <div class="input-group-append">
+                                    <div class="input-group-text"></div>
+                                </div>
+                            </div>
+                            <span class="form-text text-muted" id="capacityHelpBlock">Numbers only</span>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <!-- Course Form -->
+
+            <div class="modal-body" th:if="${Title == 'Groups'}">
+
+                <!-- Group Form -->
+                <form id="form" method="POST">
+                    <div class="form-group row">
+                        <div class="col-8">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text">
+                                        <i class="fa fa-hashtag"></i>
+                                    </div>
+                                </div>
+                                <input aria-describedby="codeHelpBlock" class="form-control" disabled id="code" name="code"
+                                       placeholder="Course ID" type="text">
+                                <div class="input-group-append">
+                                    <div class="input-group-text">
+                                        <i class="fa fa-barcode"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <span class="form-text text-muted" id="codeHelpBlock">Automatically generated</span>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-8">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text">
+                                        <i class="fa fa-group"></i>
+                                    </div>
+                                </div>
+                                <input class="form-control" id="name" name="name" placeholder="Group Title" required="required"
+                                       type="text">
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <!-- Group Form -->
+
+            <div class="modal-body" th:if="${Title == 'Students'}">
+
+
+                <!-- Student Form -->
+                <form id="form" method="POST">
+                    <div class="form-group row">
+                        <div class="col-8">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text">
+                                        <i class="fa fa-hashtag"></i>
+                                    </div>
+                                </div>
+                                <input aria-describedby="codeHelpBlock" class="form-control" disabled id="code"
+                                       name="code" placeholder="Registration Number" type="text">
+                                <div class="input-group-append">
+                                    <div class="input-group-text">
+                                        <i class="fa fa-barcode"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <span class="form-text text-muted" id="codeHelpBlock">Automatically generated</span>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label>Registration Date</label>
+                        <div class="col-8">
+                            <input id="date" name="date" required type="date">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-8">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text">
+                                        <i class="fa fa-id-badge"></i>
+                                    </div>
+                                </div>
+                                <input class="form-control" id="firstname" name="firstname" placeholder="First Name"
+                                       required="required" type="text">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-8">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text">
+                                        <i class="fa fa-id-badge"></i>
+                                    </div>
+                                </div>
+                                <input class="form-control" id="lastname" name="lastname" placeholder="Last Name"
+                                       required="required" type="text">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-8">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text">
+                                        <i class="fa fa-envelope"></i>
+                                    </div>
+                                </div>
+                                <input class="form-control" id="email" name="email" placeholder="Email Adress"
+                                       required="required" type="text">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label>Date of Birth</label>
+                        <div class="col-8">
+                            <input id="birthdate" name="birthdate" required type="date">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-8">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text">+216</div>
+                                </div>
+                                <input class="form-control" id="phone" name="phone" placeholder="Phone Number"
+                                       required="required" type="text">
+                                <div class="input-group-append">
+                                    <div class="input-group-text">
+                                        <i class="fa fa-phone"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-8">
+                            <select class="custom-select" id="group" name="group">
+                                <option value="GroupTitle">Group Title</option>
+                                <option value=""></option>
+                                <option value=""></option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label>Adress</label>
+                        <div class="col-8">
+                            <textarea aria-describedby="adressHelpBlock" class="form-control" cols="40" id="adress" name="adress"
+                                      rows="3"></textarea>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <!-- Student Form -->
+
+            <!-- Modal Footer -->
+            <div class="modal-footer">
+                <button class="btn btn-secondary" data-bs-dismiss="modal" type="button">Close</button>
+                <button class="btn btn-primary" form="form" type="submit">Save</button>
+            </div>
+            <!-- Modal Footer -->
+
+            <!-- Content -->
+
+        </div>
+    </div>
 </div>
 </body>
 <script type="module">
@@ -138,5 +740,13 @@
             inertia: true
         })
 </script>
+<script th:src="@{/js/scripts.js}"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.0.0-beta2/js/bootstrap.bundle.min.js"></script>
+<script crossorigin="anonymous"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+<script crossorigin="anonymous"
+        integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p"
+        src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </html>

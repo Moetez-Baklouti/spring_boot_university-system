@@ -15,7 +15,7 @@ public class Department {
     @Column(name = "department_code")
     private Long id;
 
-    @Column(name = "department_name", unique = true, length = 60)
+    @Column(name = "department_name", length = 60)
     private String name;
 
     @OneToMany(mappedBy = "department", cascade = CascadeType.ALL)
