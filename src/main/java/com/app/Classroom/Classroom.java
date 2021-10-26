@@ -27,6 +27,9 @@ public class Classroom {
     @OneToMany(mappedBy = "classroom", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Session> sessions;
 
+    @Transient
+    private String classroomT;
+
     public Classroom() {
     }
 
@@ -66,6 +69,23 @@ public class Classroom {
 
     public void setClassroom_type(ClassroomType classroom_type) {
         this.classroom_type = classroom_type;
+    }
+
+    public void setClassroom_type(String classroomType) {
+        this.classroom_type = ClassroomType.valueOf(classroomType);
+    }
+
+    public void setClassroom_type() {
+        this.classroom_type = ClassroomType.valueOf(classroomT);
+    }
+
+    public void setClassroomT(String classroomT) {
+        this.classroomT = classroomT;
+        this.classroom_type = ClassroomType.valueOf(classroomT);
+    }
+
+    public String getClassroomT() {
+        return classroomT;
     }
 
     public Long getId() {

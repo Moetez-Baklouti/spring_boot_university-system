@@ -17,4 +17,12 @@ public class TeacherService {
     public List<Teacher> getTeachers() {
         return teacherRepository.findAll();
     }
+
+    public Teacher saveTeacher(Teacher teacher) {
+        return teacherRepository.saveAndFlush(teacher);
+    }
+
+    public Teacher findById(Long teacherId) {
+        return teacherRepository.findById(teacherId).get();
+    }
 }

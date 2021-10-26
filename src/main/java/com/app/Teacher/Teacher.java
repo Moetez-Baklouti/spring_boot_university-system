@@ -4,6 +4,7 @@ import com.app.Department.Department;
 import com.app.Session.Session;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -30,9 +31,12 @@ public class Teacher {
     @Column(name = "phone_number", nullable = false, unique = true)
     private Long phone_number;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = {CascadeType.MERGE})
     @JoinColumn(name = "Department_Code")
     private Department department;
+
+    @Transient
+    private Long departmentId;
 
     @OneToMany(mappedBy = "teacher", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Session> sessions;
@@ -41,6 +45,8 @@ public class Teacher {
     private String adress;
 
     public Teacher() {
+        department = new Department();
+        sessions = new ArrayList<>();
     }
 
     public Teacher(String first_name, String last_name, String diploma, String email_adress) {
@@ -58,6 +64,14 @@ public class Teacher {
         this.phone_number = phone_number;
         this.department = department;
         this.adress = adress;
+    }
+
+    public Long getDepartmentId() {
+        return departmentId;
+    }
+
+    public void setDepartmentId(Long departmentId) {
+        this.departmentId = departmentId;
     }
 
     public String getAdress() {

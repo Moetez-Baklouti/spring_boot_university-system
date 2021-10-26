@@ -17,4 +17,12 @@ public class CourseService {
     public List<Course> getCourses() {
         return courseRepository.findAll();
     }
+
+    public Course findById(Long courseId) {
+        return courseRepository.findById(courseId).get();
+    }
+
+    public Course saveCourse(Course course) {
+        return courseRepository.saveAndFlush(course);
+    }
 }

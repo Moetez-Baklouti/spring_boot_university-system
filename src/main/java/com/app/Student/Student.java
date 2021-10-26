@@ -29,23 +29,29 @@ public class Student {
     @Column(name = "phone_number", nullable = false, unique = true)
     private Long phone_number;
 
-    @DateTimeFormat(pattern = "dd/MM/yyyy")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Column(name = "Date_Of_Birth", nullable = false)
     private Date date_of_birth;
 
     @Column(name = "Adress", nullable = false, length = 100)
     private String adress;
 
-    @DateTimeFormat(pattern = "dd/MM/yyyy")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Column(name = "Registration_Date", nullable = false)
     private Date registration_date;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
     @JoinColumn(name = "group_id")
     private Group group;
 
     @Transient
     private int age;
+
+    @Transient
+    private String date_reg;
+
+    @Transient
+    private String date_birth;
 
     public Student() {
 
@@ -96,6 +102,28 @@ public class Student {
 
     public void setDate_of_birth(Date date_of_birth) {
         this.date_of_birth = date_of_birth;
+    }
+
+    public void setDate_of_birth(String date){
+        this.date_of_birth = Date.valueOf(date);
+    }
+
+    public String getDate_reg() {
+        return date_reg;
+    }
+
+    public void setDate_reg(String date_reg) {
+        this.date_reg = date_reg;
+        this.registration_date = Date.valueOf(date_reg);
+    }
+
+    public String getDate_birth() {
+        return date_birth;
+    }
+
+    public void setDate_birth(String date_birth) {
+        this.date_birth = date_birth;
+        this.date_of_birth = Date.valueOf(date_birth);
     }
 
     public void setFirst_name(String first_name) {

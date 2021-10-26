@@ -22,6 +22,10 @@ public class UniversityService {
         return universityRepository.saveAndFlush(university);
     }
 
+    public University findUniversityById(Long id) {
+        return universityRepository.findById(id).get();
+    }
+
     public void deleteAll() {
         universityRepository.deleteAll();
     }

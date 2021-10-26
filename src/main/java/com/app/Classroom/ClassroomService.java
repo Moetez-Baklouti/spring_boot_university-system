@@ -17,4 +17,9 @@ public class ClassroomService {
     public List<Classroom> getClassrooms() {
         return classroomRepository.findAll();
     }
+
+    public Classroom saveClassroom(Classroom classromm) {
+        return classroomRepository.saveAndFlush(classromm);
+    }
+
 }

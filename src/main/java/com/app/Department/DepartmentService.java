@@ -26,6 +26,10 @@ public class DepartmentService {
         return departmentRepository.saveAllAndFlush(departments);
     }
 
+    public Department findDepartmentById(Long id) {
+        return departmentRepository.findById(id).get();
+    }
+
     public void deleteAll() {
         departmentRepository.deleteAll();
     }

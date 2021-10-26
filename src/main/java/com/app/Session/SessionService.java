@@ -17,4 +17,9 @@ public class SessionService {
     public List<Session> getSessions(){
         return sessionRepository.findAll();
     }
+
+    public Session saveSession(Session session) {
+        return sessionRepository.saveAndFlush(session);
+    }
+
 }

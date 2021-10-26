@@ -17,4 +17,12 @@ public class GroupService {
     public List<Group> getGroups() {
         return groupRepository.findAll();
     }
+
+    public Group findById(Long groupId) {
+        return groupRepository.findById(groupId).get();
+    }
+
+    public Group saveGroup(Group group) {
+        return groupRepository.saveAndFlush(group);
+    }
 }

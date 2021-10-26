@@ -4,6 +4,7 @@ import com.app.Teacher.Teacher;
 import com.app.University.University;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -21,11 +22,13 @@ public class Department {
     @OneToMany(mappedBy = "department", cascade = CascadeType.ALL)
     private List<Teacher> teachers;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = {CascadeType.MERGE})
     @JoinColumn(name = "university_code")
     private University university;
 
     public Department() {
+        university = new University();
+        teachers = new ArrayList<>();
     }
 
     public Department(String name) {

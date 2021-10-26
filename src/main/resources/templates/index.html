@@ -1,4 +1,4 @@
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head>
     <meta charset="utf-8">
@@ -43,7 +43,7 @@
 <div id="container">
     <strong><h5 th:text="${Title}"></h5></strong>
     <div class="table-responsive">
-        <table class="table">
+        <table id="refresh" class="table">
             <thead>
             <tr>
                 <th th:each="header: ${headers}" th:text="${header}"></th>
@@ -86,7 +86,7 @@
 
                 <!-- University Form -->
 
-                <form id="form" method="POST">
+                <form id="form" action="#" th:action="@{/universities}" th:object="${university}" method="POST">
                     <div class="form-group row">
                         <div class="col-8">
                             <div class="input-group">
@@ -114,8 +114,8 @@
                                         <i class="fa fa-university"></i>
                                     </div>
                                 </div>
-                                <input class="form-control" id="name" name="name" placeholder="University Name"
-                                       required="required" type="text">
+                                <input th:field="*{name}" class="form-control" placeholder="University Name"
+                                       required="required" type="text"/>
                             </div>
                         </div>
                     </div>
@@ -127,8 +127,8 @@
                                         <i class="fa fa-internet-explorer"></i>
                                     </div>
                                 </div>
-                                <input class="form-control" id="website" name="website" placeholder="University Website"
-                                       required="required" type="text">
+                                <input  th:field="*{website}" class="form-control"  placeholder="University Website"
+                                       required="required" type="text"/>
                             </div>
                         </div>
                     </div>
@@ -140,7 +140,7 @@
 
                 <!-- Department Form -->
 
-                <form id="form" method="POST">
+                <form id="form" action="#" th:action="@{/departments}" th:object="${department}" method="POST">
                     <div class="form-group row">
                         <div class="col-8">
                             <div class="input-group">
@@ -168,17 +168,16 @@
                                         <i class="fa fa-black-tie"></i>
                                     </div>
                                 </div>
-                                <input class="form-control" id="name" name="name" placeholder="Department Name"
+                                <input th:field="*{name}" class="form-control" id="name" name="name" placeholder="Department Name"
                                        required="required" type="text">
                             </div>
                         </div>
                     </div>
                     <div class="form-group row">
                         <div class="col-8">
-                            <select class="custom-select" id="select" name="select">
+                            <select class="custom-select" id="select" name="select" th:field="*{university.id}">
                                 <option value="Select University">University</option>
-                                <option value=""></option>
-                                <option value=""></option>
+                                <option  th:each="uni : ${universities}" th:value="${uni.id}" th:text="${uni.name}"></option>
                             </select>
                         </div>
                     </div>
@@ -189,7 +188,7 @@
             <div class="modal-body" th:if="${Title == 'Instructors'}">
 
                 <!-- Instructor Form -->
-                <form id="form" method="POST">
+                <form id="form" action="#" th:action="@{/instructors}" th:object="${instructor}" method="POST">
                     <div class="form-group row">
                         <div class="col-8">
                             <div class="input-group">
@@ -217,7 +216,7 @@
                                         <i class="fa fa-id-badge"></i>
                                     </div>
                                 </div>
-                                <input class="form-control" id="firstname" name="firstname" placeholder="First Name"
+                                <input th:field="*{first_name}" class="form-control" id="firstname" name="firstname" placeholder="First Name"
                                        required="required" type="text">
                             </div>
                         </div>
@@ -230,7 +229,7 @@
                                         <i class="fa fa-id-badge"></i>
                                     </div>
                                 </div>
-                                <input class="form-control" id="lastname" name="lastname" placeholder="Last Name"
+                                <input th:field="*{last_name}" class="form-control" id="lastname" name="lastname" placeholder="Last Name"
                                        required="required" type="text">
                             </div>
                         </div>
@@ -243,7 +242,7 @@
                                         <i class="fa fa-graduation-cap"></i>
                                     </div>
                                 </div>
-                                <input class="form-control" id="diploma" name="diploma" placeholder="Diploma"
+                                <input th:field="*{diploma}" class="form-control" id="diploma" name="diploma" placeholder="Diploma"
                                        required="required" type="text">
                             </div>
                         </div>
@@ -254,7 +253,7 @@
                                 <div class="input-group-prepend">
                                     <div class="input-group-text">+216</div>
                                 </div>
-                                <input class="form-control" id="phone" name="phone" placeholder="Phone Number"
+                                <input th:field="*{phone_number}" class="form-control" id="phone" name="phone" placeholder="Phone Number"
                                        required="required" type="text">
                                 <div class="input-group-append">
                                     <div class="input-group-text">
@@ -266,10 +265,9 @@
                     </div>
                     <div class="form-group row">
                         <div class="col-8">
-                            <select class="custom-select" id="department" name="department">
+                            <select th:field="*{department.id}" class="custom-select" id="department" name="department">
                                 <option value="Department">Department</option>
-                                <option value=""></option>
-                                <option value=""></option>
+                                <option th:each="dep : ${departments}" th:value="${dep.id}" th:text="${dep.name}"></option>
                             </select>
                         </div>
                     </div>
@@ -281,7 +279,7 @@
                                         <i class="fa fa-envelope"></i>
                                     </div>
                                 </div>
-                                <input class="form-control" id="email" name="email" placeholder="Email Adress"
+                                <input th:field="*{email_adress}" class="form-control" id="email" name="email" placeholder="Email Adress"
                                        required="required" type="text">
                             </div>
                         </div>
@@ -289,7 +287,7 @@
                     <div class="form-group row">
                         <label>Adress</label>
                         <div class="col-8">
-                            <textarea aria-describedby="adressHelpBlock" class="form-control" cols="40" id="adress" name="adress"
+                            <textarea th:field="*{adress}" aria-describedby="adressHelpBlock" class="form-control" cols="40" id="adress" name="adress"
                                       rows="4"></textarea>
                             <span class="form-text text-muted" id="adressHelpBlock">Adress</span>
                         </div>
@@ -302,7 +300,7 @@
 
                 <!-- Session Form -->
 
-                <form id="form" method="POST">
+                <form id="form" action="#" th:action="@{/sessions}" th:object="${session}" method="POST">
                     <div class="form-group row">
                         <div class="col-8">
                             <div class="input-group">
@@ -325,48 +323,44 @@
                     <div class="form-group row">
                         <label>Session Date</label>
                         <div class="col-8">
-                            <input id="date" name="date" required type="date">
+                            <input th:field="*{d_date}" id="date" name="date" required type="date">
                         </div>
                     </div>
                     <div class="form-group row">
                         <label>Session Time</label>
                         <div class="col-8">
-                            <input id="time" max="18:00" min="08:00" name="time" required type="time">
+                            <input th:field="*{t_time}" id="time" max="18:00" min="08:00" name="time" required type="time">
                         </div>
                     </div>
                     <div class="form-group row">
                         <div class="col-8">
-                            <select class="custom-select" id="instructor" name="instructor" required="required">
+                            <select th:field="*{teacher.id}" class="custom-select" id="instructor" name="instructor" required="required">
                                 <option value="instructor">instructor</option>
-                                <option value=""></option>
-                                <option value=""></option>
+                                <option th:each="ins : ${instructors}" th:value="${ins.id}" th:text="${ins.toString(1)}"></option>
                             </select>
                         </div>
                     </div>
                     <div class="form-group row">
                         <div class="col-8">
-                            <select class="custom-select" id="classroom" name="classroom">
+                            <select th:field="*{classroom.id}" class="custom-select" id="classroom" name="classroom">
                                 <option value="Classroom">Classroom</option>
-                                <option value="duck">Duck</option>
-                                <option value="fish">Fish</option>
+                                <option th:each="class : ${classrooms}" th:value="${class.id}" th:text="${class.classroom_name}"></option>
                             </select>
                         </div>
                     </div>
                     <div class="form-group row">
                         <div class="col-8">
-                            <select class="custom-select" id="course" name="course">
+                            <select th:field="*{course.id}" class="custom-select" id="course" name="course">
                                 <option value="Course">Course</option>
-                                <option value=""></option>
-                                <option value=""></option>
+                                <option th:each="cour : ${courses}" th:value="${cour.id}" th:text="${cour.course_title}"></option>
                             </select>
                         </div>
                     </div>
                     <div class="form-group row">
                         <div class="col-8">
-                            <select class="custom-select" id="group" name="group">
+                            <select th:field="*{group.id}" class="custom-select" id="group" name="group">
                                 <option value="Group">Group</option>
-                                <option value="duck">Duck</option>
-                                <option value="fish">Fish</option>
+                                <option th:each="grp : ${groups}" th:value="${grp.id}" th:text="${grp.group_title}"></option>
                             </select>
                         </div>
                     </div>
@@ -377,7 +371,7 @@
             <div class="modal-body" th:if="${Title == 'Classrooms'}">
 
                 <!-- Classroom Form -->
-                <form id="form" method="POST">
+                <form id="form" action="#" th:action="@{/classrooms}" th:object="${classroom}" method="POST">
                     <div class="form-group row">
                         <div class="col-8">
                             <div class="input-group">
@@ -405,20 +399,16 @@
                                         <i class="fa fa-university"></i>
                                     </div>
                                 </div>
-                                <input class="form-control" id="name" name="name" placeholder="Classroom Name"
+                                <input th:field="*{classroom_name}" class="form-control" id="name" name="name" placeholder="Classroom Name"
                                        required="required" type="text">
                             </div>
                         </div>
                     </div>
                     <div class="form-group row">
                         <div class="col-8">
-                            <select class="custom-select" id="type" name="type">
-                                <option value="-1">Classroom Type</option>
-                                <option value="0">Lecture Classroom</option>
-                                <option value="1">Auditoria Lecture Classroom</option>
-                                <option value="2">Seminar Classroom</option>
-                                <option value="3">Case Study Classroom</option>
-                                <option value="4">Interactive Computer Classroom</option>
+                            <select th:field="*{classroomT}" class="custom-select" id="type" name="type">
+                                <option value="Classroom Type">Classroom Type</option>
+                                <option th:each="classs : ${T(com.app.Classroom.ClassroomType).values()}" th:value="${{classs}}" th:text="${{classs}}"></option>
                             </select>
                         </div>
                     </div>
@@ -430,7 +420,7 @@
                                         <i class="fa fa-group"></i>
                                     </div>
                                 </div>
-                                <input aria-describedby="capacityHelpBlock" class="form-control" id="capacity" max="150"
+                                <input th:field="*{classroom_capacity}" aria-describedby="capacityHelpBlock" class="form-control" id="capacity" max="150"
                                        min="20" name="capacity" placeholder="Classroom Capacity" required="required"
                                        type="number">
                                 <div class="input-group-append">
@@ -448,7 +438,7 @@
 
                 <!-- Course Form -->
 
-                <form id="form" method="POST">
+                <form id="form" action="#" th:action="@{/courses}" th:object="${course}" method="POST">
                     <div class="form-group row">
                         <div class="col-8">
                             <div class="input-group">
@@ -476,7 +466,7 @@
                                         <i class="fa fa-book"></i>
                                     </div>
                                 </div>
-                                <input class="form-control" id="name" name="name" placeholder="Course Title" required="required"
+                                <input th:field="*{course_title}" class="form-control" id="name" name="name" placeholder="Course Title" required="required"
                                        type="text">
                             </div>
                         </div>
@@ -489,9 +479,8 @@
                                         <i class="fa fa-sort-numeric-asc"></i>
                                     </div>
                                 </div>
-                                <input aria-describedby="capacityHelpBlock" class="form-control" id="capacity" max="9"
-                                       min="1" name="capacity" placeholder="Course_Coefficient" required="required"
-                                       type="number">
+                                <input th:field="*{course_coefficient}" aria-describedby="capacityHelpBlock" class="form-control" id="capacity" max="9"
+                                       min="1" name="capacity" placeholder="Course_Coefficient" required="required" type="number">
                                 <div class="input-group-append">
                                     <div class="input-group-text"></div>
                                 </div>
@@ -506,7 +495,7 @@
             <div class="modal-body" th:if="${Title == 'Groups'}">
 
                 <!-- Group Form -->
-                <form id="form" method="POST">
+                <form id="form" action="#" th:action="@{/groups}" th:object="${group}" method="POST">
                     <div class="form-group row">
                         <div class="col-8">
                             <div class="input-group">
@@ -534,7 +523,7 @@
                                         <i class="fa fa-group"></i>
                                     </div>
                                 </div>
-                                <input class="form-control" id="name" name="name" placeholder="Group Title" required="required"
+                                <input th:field="*{group_title}" class="form-control" id="name" name="name" placeholder="Group Title" required="required"
                                        type="text">
                             </div>
                         </div>
@@ -547,7 +536,7 @@
 
 
                 <!-- Student Form -->
-                <form id="form" method="POST">
+                <form id="form" action="#" th:action="@{/students}" th:object="${student}" method="POST">
                     <div class="form-group row">
                         <div class="col-8">
                             <div class="input-group">
@@ -570,7 +559,7 @@
                     <div class="form-group row">
                         <label>Registration Date</label>
                         <div class="col-8">
-                            <input id="date" name="date" required type="date">
+                            <input th:field="*{date_reg}" id="date" name="date" required type="date">
                         </div>
                     </div>
                     <div class="form-group row">
@@ -581,7 +570,7 @@
                                         <i class="fa fa-id-badge"></i>
                                     </div>
                                 </div>
-                                <input class="form-control" id="firstname" name="firstname" placeholder="First Name"
+                                <input th:field="*{first_name}" class="form-control" id="firstname" name="firstname" placeholder="First Name"
                                        required="required" type="text">
                             </div>
                         </div>
@@ -594,7 +583,7 @@
                                         <i class="fa fa-id-badge"></i>
                                     </div>
                                 </div>
-                                <input class="form-control" id="lastname" name="lastname" placeholder="Last Name"
+                                <input th:field="*{last_name}" class="form-control" id="lastname" name="lastname" placeholder="Last Name"
                                        required="required" type="text">
                             </div>
                         </div>
@@ -607,7 +596,7 @@
                                         <i class="fa fa-envelope"></i>
                                     </div>
                                 </div>
-                                <input class="form-control" id="email" name="email" placeholder="Email Adress"
+                                <input th:field="*{email_adress}" class="form-control" id="email" name="email" placeholder="Email Adress"
                                        required="required" type="text">
                             </div>
                         </div>
@@ -615,7 +604,7 @@
                     <div class="form-group row">
                         <label>Date of Birth</label>
                         <div class="col-8">
-                            <input id="birthdate" name="birthdate" required type="date">
+                            <input th:field="*{date_birth}" id="birthdate" name="birthdate" required type="date">
                         </div>
                     </div>
                     <div class="form-group row">
@@ -624,7 +613,7 @@
                                 <div class="input-group-prepend">
                                     <div class="input-group-text">+216</div>
                                 </div>
-                                <input class="form-control" id="phone" name="phone" placeholder="Phone Number"
+                                <input th:field="*{phone_number}" class="form-control" id="phone" name="phone" placeholder="Phone Number"
                                        required="required" type="text">
                                 <div class="input-group-append">
                                     <div class="input-group-text">
@@ -636,17 +625,16 @@
                     </div>
                     <div class="form-group row">
                         <div class="col-8">
-                            <select class="custom-select" id="group" name="group">
+                            <select th:field="*{group.id}" class="custom-select" id="group" name="group">
                                 <option value="GroupTitle">Group Title</option>
-                                <option value=""></option>
-                                <option value=""></option>
+                                <option th:each="grp : ${groups}" th:value="${grp.id}" th:text="${grp.group_title}"></option>
                             </select>
                         </div>
                     </div>
                     <div class="form-group row">
                         <label>Adress</label>
                         <div class="col-8">
-                            <textarea aria-describedby="adressHelpBlock" class="form-control" cols="40" id="adress" name="adress"
+                            <textarea th:field="*{adress}" aria-describedby="adressHelpBlock" class="form-control" cols="40" id="adress" name="adress"
                                       rows="3"></textarea>
                         </div>
                     </div>

@@ -20,6 +20,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -52,7 +54,7 @@ public class MainViewController {
     public String GetMainPage(Model model) {
         model.addAttribute("Title","Spring boot");
         model.addAttribute("mainpage",true);
-        /*departmentService.deleteAll();
+       /* departmentService.deleteAll();
         universityService.deleteAll();
         University u = new University("ISG","http://www.isg.rnu.tn/");
         List<Department> departments = List.of(
@@ -65,7 +67,7 @@ public class MainViewController {
         );
         u.setDepartments(departments);
         u = universityService.saveUniversity(u);
-        /*for (Department department : departments){
+        for (Department department : departments){
             department.setUniversity(u);
             System.out.println(u.getId());
         }
@@ -76,6 +78,7 @@ public class MainViewController {
     @GetMapping(path = "/students")
     public String GetStudents(Model model) {
         model.addAttribute("Title","Students");
+        model.addAttribute("student", new Student());
         List<String> headers = List.of(
                 "Registration Number",
                 "Group Title",
@@ -87,6 +90,7 @@ public class MainViewController {
                 "Adress",
                 "Registration Date"
         );
+        List<Boolean> complexType = List.of(false,false,false,false,false,false,false,false,false);
         List<Student> students = studentService.getStudents();
         List<Map<String, Object>> rows = new ArrayList<>();
         SimpleDateFormat sDF = new SimpleDateFormat("dd MMM yyyy");
@@ -106,12 +110,15 @@ public class MainViewController {
         }
         model.addAttribute("headers",headers);
         model.addAttribute("rows",rows);
+        model.addAttribute("complexType",complexType);
+        model.addAttribute("groups", groupService.getGroups());
         return "index";
     }
 
     @GetMapping(path = "/groups")
     public String GetGroups(Model model) {
         model.addAttribute("Title","Groups");
+        model.addAttribute("group", new Group());
         List<String> headers = List.of(
                 "Group ID",
                 "Group Title",
@@ -139,6 +146,7 @@ public class MainViewController {
     @GetMapping(path = "/classrooms")
     public String GetClassrooms(Model model) {
         model.addAttribute("Title","Classrooms");
+        model.addAttribute("classroom", new Classroom());
         List<String> headers = List.of(
                 "Classroom ID",
                 "Classroom Name",
@@ -168,6 +176,7 @@ public class MainViewController {
     @GetMapping(path = "/courses")
     public String GetCourses(Model model) {
         model.addAttribute("Title","Courses");
+        model.addAttribute("course", new Course());
         List<String> headers = List.of(
                 "Course ID",
                 "Course Title",
@@ -194,9 +203,49 @@ public class MainViewController {
         return "index";
     }
 
+    @GetMapping(path = "/sessions")
+    public String GetSessions(Model model) {
+        model.addAttribute("Title","Sessions");
+        model.addAttribute("session", new Session());
+        List<String> headers = List.of(
+                "Session ID",
+                "Session Date",
+                "Session Time",
+                "Instructor",
+                "Classroom",
+                "Course",
+                "Group"
+        );
+        List<Boolean> complexType = List.of(false,false,false,false,false,false,false);
+        List<Session> sessions = sessionService.getSessions();
+        List<Map<String, Object>> rows = new ArrayList<>();
+        SimpleDateFormat sDF = new SimpleDateFormat("dd MMM yyyy");
+        for (Session session : sessions) {
+            Map<String, Object> map = Map.of(
+                    headers.get(0), session.getId().toString(),
+                    headers.get(1), sDF.format(session.getDate()),
+                    headers.get(2), session.getTime().toString().substring(0,session.getTime().toString().length() - 3),
+                    headers.get(3), session.getTeacher().getLast_name(),
+                    headers.get(4), session.getClassroom().getClassroom_name(),
+                    headers.get(5), session.getCourse().getCourse_title(),
+                    headers.get(6), session.getGroup().getGroup_title()
+            );
+            rows.add(map);
+        }
+        model.addAttribute("headers",headers);
+        model.addAttribute("rows",rows);
+        model.addAttribute("complexType",complexType);
+        model.addAttribute("instructors", teacherService.getTeachers());
+        model.addAttribute("classrooms", classroomService.getClassrooms());
+        model.addAttribute("courses", courseService.getCourses());
+        model.addAttribute("groups", groupService.getGroups());
+        return "index";
+    }
+
     @GetMapping(path = "/departments")
     public String GetDepartements(Model model) {
         model.addAttribute("Title","Departments");
+        model.addAttribute("department", new Department());
         List<String> headers = List.of(
                 "Department Code",
                 "Department Name",
@@ -218,45 +267,14 @@ public class MainViewController {
         model.addAttribute("headers",headers);
         model.addAttribute("rows",rows);
         model.addAttribute("complexType",complexType);
-        return "index";
-    }
-
-    @GetMapping(path = "/sessions")
-    public String GetSessions(Model model) {
-        model.addAttribute("Title","Sessions");
-        List<String> headers = List.of(
-                "Session ID",
-                "Session Date",
-                "Session Time",
-                "Instructor",
-                "Classroom",
-                "Course",
-                "Group"
-        );
-        List<Session> sessions = sessionService.getSessions();
-        List<Map<String, Object>> rows = new ArrayList<>();
-        SimpleDateFormat sDF = new SimpleDateFormat("dd MMM yyyy");
-        SimpleDateFormat sDT = new SimpleDateFormat("hh:mm");
-        for (Session session : sessions) {
-            Map<String, Object> map = Map.of(
-                    headers.get(0), session.getId().toString(),
-                    headers.get(1), sDF.format(session.getDate()),
-                    headers.get(2), sDT.format(session.getTime()),
-                    headers.get(3), session.getTeacher().getLast_name(),
-                    headers.get(4), session.getClassroom().getClassroom_name(),
-                    headers.get(5), session.getCourse().getCourse_title(),
-                    headers.get(6), session.getGroup().getGroup_title()
-            );
-            rows.add(map);
-        }
-        model.addAttribute("headers",headers);
-        model.addAttribute("rows",rows);
+        model.addAttribute("universities",universityService.getUniversities());
         return "index";
     }
 
     @GetMapping(path = "/instructors")
     public String GetTeachers(Model model) {
         model.addAttribute("Title","Instructors");
+        model.addAttribute("instructor", new Teacher());
         List<String> headers = List.of(
                 "ID",
                 "First Name",
@@ -288,12 +306,14 @@ public class MainViewController {
         model.addAttribute("headers",headers);
         model.addAttribute("rows",rows);
         model.addAttribute("complexType",complexType);
+        model.addAttribute("departments", departmentService.getDepartments());
         return "index";
     }
 
     @GetMapping(path = "/universities")
     public String GetUniversities(Model model) {
         model.addAttribute("Title","Universities");
+        model.addAttribute("university", new University());
         List<String> headers = List.of(
                 "University Code",
                 "University Name",
@@ -316,6 +336,55 @@ public class MainViewController {
         model.addAttribute("rows",rows);
         model.addAttribute("complexType",complexType);
         return "index";
+    }
+
+    @PostMapping("/universities")
+    public String SubmitUniversity(@ModelAttribute University university) {
+        universityService.saveUniversity(university);
+        return "redirect:/universities";
+    }
+
+    @PostMapping("/departments")
+    public String SubmitDepartment(@ModelAttribute Department department) {
+        departmentService.saveDepartment(department);
+        return "redirect:/departments";
+    }
+
+    @PostMapping("/instructors")
+    public String SubmitTeacher(@ModelAttribute Teacher teacher) {
+        teacherService.saveTeacher(teacher);
+        return "redirect:/instructors";
+    }
+
+    @PostMapping("/sessions")
+    public String SubmitSession(@ModelAttribute Session session) {
+        sessionService.saveSession(session);
+        return "redirect:/sessions";
+    }
+
+    @PostMapping("/classrooms")
+    public String SubmitClassroom(@ModelAttribute Classroom classroom) {
+        //classroom.setClassroom_type();
+        classroomService.saveClassroom(classroom);
+        return "redirect:/classrooms";
+    }
+
+    @PostMapping("/courses")
+    public String SubmitCourse(@ModelAttribute Course course) {
+        courseService.saveCourse(course);
+        return "redirect:/courses";
+    }
+
+    @PostMapping("/groups")
+    public String SubmitGroup(@ModelAttribute Group group) {
+        groupService.saveGroup(group);
+        return "redirect:/groups";
+    }
+
+    @PostMapping("/students")
+    public String SubmitStudent(@ModelAttribute Student student) {
+        studentService.saveStudent(student);
+        return "redirect:/students";
     }
 }
 

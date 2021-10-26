@@ -15,42 +15,45 @@ import java.util.Objects;
 @Entity
 public class Session {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "Session_ID")
     private Long id;
 
-    @DateTimeFormat(pattern = "dd/MM/yyyy")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Column(name = "Session_Date", nullable = false)
-    private Date date;
+    private Date date = new Date(1L);
 
     @DateTimeFormat(pattern = "HH:mm")
     @Column(name = "Session_Time", nullable = false)
-    private Time time;
+    private Time time = new Time(1L);
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = {CascadeType.MERGE})
     @JoinColumn(name = "teacher_id")
     private Teacher teacher;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = {CascadeType.MERGE})
     @JoinColumn(name = "classroom_id")
     private Classroom classroom;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = {CascadeType.MERGE})
     @JoinColumn(name = "course_id")
     private Course course;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = {CascadeType.MERGE})
     @JoinColumn(name = "group_id")
     private Group group;
 
-    public Group getGroup() {
-        return group;
-    }
+    @Transient
+    private String d_date;
 
-    public void setGroup(Group group) {
-        this.group = group;
-    }
+    @Transient
+    private String t_time;
 
     public Session() {
+        teacher = new Teacher();
+        classroom = new Classroom();
+        course = new Course();
+        group = new Group();
     }
 
     public Session(Date date, Time time, Classroom classroom, Course course) {
@@ -66,6 +69,14 @@ public class Session {
         this.teacher = teacher;
         this.classroom = classroom;
         this.course = course;
+    }
+
+    public Group getGroup() {
+        return group;
+    }
+
+    public void setGroup(Group group) {
+        this.group = group;
     }
 
     public Course getCourse() {
@@ -116,6 +127,24 @@ public class Session {
         this.date = date;
     }
 
+    public String getD_date() {
+        return d_date;
+    }
+
+    public void setD_date(String _date) {
+        this.d_date = _date;
+        date = Date.valueOf(d_date);
+    }
+
+    public String getT_time() {
+        return t_time;
+    }
+
+    public void setT_time(String _time) {
+        this.t_time = _time + ":00";
+        time = Time.valueOf(t_time);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -142,6 +171,6 @@ public class Session {
     }
 
     public String toString(int i) {
-        return date.toString() + " " + time.toString() + " in " + classroom.getClassroom_name();
+        return date.toString() + " " + time.toString().substring(0,time.toString().length() - 3) + " in " + classroom.getClassroom_name();
     }
 }
