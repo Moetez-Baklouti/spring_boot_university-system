@@ -21,7 +21,7 @@ public class University {
     @Column(name = "university_website", length = 120)
     private String website;
 
-    @OneToMany(mappedBy = "university")
+    @OneToMany(mappedBy = "university",orphanRemoval = true, cascade = CascadeType.PERSIST)
     private List<Department> departments = new ArrayList<>();
 
     public University() {

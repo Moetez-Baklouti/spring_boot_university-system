@@ -40,7 +40,7 @@ public class Student {
     @Column(name = "Registration_Date", nullable = false)
     private Date registration_date;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
+    @ManyToOne
     @JoinColumn(name = "group_id")
     private Group group;
 

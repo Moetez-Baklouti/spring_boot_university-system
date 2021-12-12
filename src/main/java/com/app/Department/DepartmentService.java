@@ -33,4 +33,8 @@ public class DepartmentService {
     public void deleteAll() {
         departmentRepository.deleteAll();
     }
+
+    public void DeleteDepartment(long parseLong) {
+        departmentRepository.deleteById(parseLong);
+    }
 }

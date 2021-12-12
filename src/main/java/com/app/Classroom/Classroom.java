@@ -24,7 +24,7 @@ public class Classroom {
     @Column(name = "Classroom_Capacity", nullable = false)
     private Integer classroom_capacity;
 
-    @OneToMany(mappedBy = "classroom", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "classroom", cascade = CascadeType.REMOVE)
     private List<Session> sessions;
 
     @Transient

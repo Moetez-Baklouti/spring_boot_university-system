@@ -20,7 +20,7 @@ public class Course {
     @Column(name = "Course_Coefficient", nullable = false)
     private Integer course_coefficient;
 
-    @OneToMany(mappedBy = "course", cascade = CascadeType.MERGE, orphanRemoval = true)
+    @OneToMany(mappedBy = "course", cascade = CascadeType.REMOVE)
     private List<Session> sessions;
 
     public Course() {

@@ -19,10 +19,10 @@ public class Department {
     @Column(name = "department_name", length = 60)
     private String name;
 
-    @OneToMany(mappedBy = "department", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "department",orphanRemoval = true, cascade = CascadeType.PERSIST)
     private List<Teacher> teachers;
 
-    @ManyToOne(cascade = {CascadeType.MERGE})
+    @ManyToOne
     @JoinColumn(name = "university_code")
     private University university;
 

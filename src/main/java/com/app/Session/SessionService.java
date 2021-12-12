@@ -22,4 +22,7 @@ public class SessionService {
         return sessionRepository.saveAndFlush(session);
     }
 
+    public void DeleteSession(long parseLong) {
+        sessionRepository.deleteById(parseLong);
+    }
 }

@@ -23,4 +23,8 @@ public class StudentService {
     public Student saveStudent(Student student) {
         return studentRepository.saveAndFlush(student);
     }
+
+    public void DeleteStudent(long parseLong) {
+        studentRepository.deleteById(parseLong);
+    }
 }

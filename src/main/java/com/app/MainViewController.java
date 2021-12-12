@@ -21,6 +21,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import java.text.SimpleDateFormat;
@@ -52,26 +53,8 @@ public class MainViewController {
 
     @GetMapping
     public String GetMainPage(Model model) {
-        model.addAttribute("Title","Spring boot");
+        model.addAttribute("Title","University Architecture");
         model.addAttribute("mainpage",true);
-       /* departmentService.deleteAll();
-        universityService.deleteAll();
-        University u = new University("ISG","http://www.isg.rnu.tn/");
-        List<Department> departments = List.of(
-                new Department("Computer science",u),
-                new Department("Economics",u),
-                new Department("Finance and accounting",u),
-                new Department("Management",u),
-                new Department("Human Resources",u),
-                new Department("Marketing",u)
-        );
-        u.setDepartments(departments);
-        u = universityService.saveUniversity(u);
-        for (Department department : departments){
-            department.setUniversity(u);
-            System.out.println(u.getId());
-        }
-        departments = departmentService.saveDepartments(departments);*/
         return "index";
     }
 
@@ -161,7 +144,7 @@ public class MainViewController {
             Map<String, Object> map = Map.of(
                     headers.get(0), classroom.getId().toString(),
                     headers.get(1), classroom.getClassroom_name(),
-                    headers.get(2), classroom.getClassroom_type().toString(),
+                    headers.get(2), classroom.getClassroom_type().toString().replace('_',' '),
                     headers.get(3), classroom.getClassroom_capacity().toString(),
                     headers.get(4), classroom.getSessions()
             );
@@ -225,7 +208,7 @@ public class MainViewController {
                     headers.get(0), session.getId().toString(),
                     headers.get(1), sDF.format(session.getDate()),
                     headers.get(2), session.getTime().toString().substring(0,session.getTime().toString().length() - 3),
-                    headers.get(3), session.getTeacher().getLast_name(),
+                    headers.get(3), session.getTeacher().toString(1),
                     headers.get(4), session.getClassroom().getClassroom_name(),
                     headers.get(5), session.getCourse().getCourse_title(),
                     headers.get(6), session.getGroup().getGroup_title()
@@ -386,5 +369,55 @@ public class MainViewController {
         studentService.saveStudent(student);
         return "redirect:/students";
     }
+
+    @GetMapping("/universities/{id}")
+    public String DeleteUniversity(@PathVariable String id) {
+        universityService.DeleteUniversity(Long.parseLong(id));
+        return "redirect:/universities";
+    }
+
+    @GetMapping("/departments/{id}")
+    public String DeleteDepartment(@PathVariable String id) {
+        departmentService.DeleteDepartment(Long.parseLong(id));
+        return "redirect:/departments";
+    }
+
+    @GetMapping("/instructors/{id}")
+    public String DeleteTeacher(@PathVariable String id) {
+        teacherService.DeleteTeacher(Long.parseLong(id));
+        return "redirect:/instructors";
+    }
+
+    @GetMapping("/sessions/{id}")
+    public String DeleteSession(@PathVariable String id) {
+        sessionService.DeleteSession(Long.parseLong(id));
+        return "redirect:/sessions";
+    }
+
+    @GetMapping("/classrooms/{id}")
+    public String DeleteClassroom(@PathVariable String id) {
+        //classroom.setClassroom_type();
+        classroomService.DeleteClassroom(Long.parseLong(id));
+        return "redirect:/classrooms";
+    }
+
+    @GetMapping("/courses/{id}")
+    public String DeleteCourse(@PathVariable String id) {
+        courseService.DeleteCourse(Long.parseLong(id));
+        return "redirect:/courses";
+    }
+
+    @GetMapping("/groups/{id}")
+    public String DeleteGroup(@PathVariable String id) {
+        groupService.DeleteGroup(Long.parseLong(id));
+        return "redirect:/groups";
+    }
+
+    @GetMapping("/students/{id}")
+    public String DeleteStudent(@PathVariable String id) {
+        studentService.DeleteStudent(Long.parseLong(id));
+        return "redirect:/students";
+    }
+
 }
 

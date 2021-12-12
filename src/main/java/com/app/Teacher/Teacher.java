@@ -31,14 +31,14 @@ public class Teacher {
     @Column(name = "phone_number", nullable = false, unique = true)
     private Long phone_number;
 
-    @ManyToOne(cascade = {CascadeType.MERGE})
+    @ManyToOne
     @JoinColumn(name = "Department_Code")
     private Department department;
 
     @Transient
     private Long departmentId;
 
-    @OneToMany(mappedBy = "teacher", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "teacher", cascade = CascadeType.REMOVE)
     private List<Session> sessions;
 
     @Column(name = "Adress", nullable = false, length = 100)

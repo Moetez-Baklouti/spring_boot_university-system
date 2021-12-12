@@ -25,4 +25,8 @@ public class CourseService {
     public Course saveCourse(Course course) {
         return courseRepository.saveAndFlush(course);
     }
+
+    public void DeleteCourse(long parseLong) {
+        courseRepository.deleteById(parseLong);
+    }
 }

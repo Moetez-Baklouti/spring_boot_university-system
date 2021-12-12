@@ -29,4 +29,12 @@ public class UniversityService {
     public void deleteAll() {
         universityRepository.deleteAll();
     }
+
+    public University getUniversity(Long id) {
+        return universityRepository.getById(id);
+    }
+
+    public void DeleteUniversity(long parseLong) {
+        universityRepository.deleteById(parseLong);
+    }
 }

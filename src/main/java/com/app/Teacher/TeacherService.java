@@ -25,4 +25,8 @@ public class TeacherService {
     public Teacher findById(Long teacherId) {
         return teacherRepository.findById(teacherId).get();
     }
+
+    public void DeleteTeacher(long parseLong) {
+        teacherRepository.deleteById(parseLong);
+    }
 }

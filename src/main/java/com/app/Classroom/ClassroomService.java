@@ -22,4 +22,7 @@ public class ClassroomService {
         return classroomRepository.saveAndFlush(classromm);
     }
 
+    public void DeleteClassroom(long parseLong) {
+        classroomRepository.deleteById(parseLong);
+    }
 }

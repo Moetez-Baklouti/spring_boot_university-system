@@ -27,19 +27,19 @@ public class Session {
     @Column(name = "Session_Time", nullable = false)
     private Time time = new Time(1L);
 
-    @ManyToOne(cascade = {CascadeType.MERGE})
+    @ManyToOne
     @JoinColumn(name = "teacher_id")
     private Teacher teacher;
 
-    @ManyToOne(cascade = {CascadeType.MERGE})
+    @ManyToOne
     @JoinColumn(name = "classroom_id")
     private Classroom classroom;
 
-    @ManyToOne(cascade = {CascadeType.MERGE})
+    @ManyToOne
     @JoinColumn(name = "course_id")
     private Course course;
 
-    @ManyToOne(cascade = {CascadeType.MERGE})
+    @ManyToOne
     @JoinColumn(name = "group_id")
     private Group group;
 
@@ -171,6 +171,10 @@ public class Session {
     }
 
     public String toString(int i) {
-        return date.toString() + " " + time.toString().substring(0,time.toString().length() - 3) + " in " + classroom.getClassroom_name();
+        if (i!=10)
+            return date.toString() + " " + time.toString().substring(0,time.toString().length() - 3) + " in " + classroom.getClassroom_name();
+        else
+            return date.toString() + " " + time.toString().substring(0,time.toString().length() - 3);
+
     }
 }

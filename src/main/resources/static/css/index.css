@@ -1,10 +1,10 @@
-.bg-pan-left {
-    background: rgb(255, 162, 190);
-    background: linear-gradient(71deg, rgba(255, 162, 190, 1) 0%, rgba(255, 162, 190, 1) 17%, rgba(231, 189, 232, 1) 29%, rgba(255, 183, 189, 1) 42%, rgba(204, 247, 241, 1) 57%, rgba(231, 189, 232, 1) 71%, rgba(255, 162, 190, 1) 80%);
-    background-size: 600% 600%;
-    background-repeat: repeat;
-    -webkit-animation: bg-pan-right 8s infinite both;
-    animation: bg-pan-right 8s infinite both
+.col {
+    max-width: 25%;
+}
+
+.col img {
+    width: 95%;
+    max-height: 70%;
 }
 
 @-webkit-keyframes bg-pan-right {

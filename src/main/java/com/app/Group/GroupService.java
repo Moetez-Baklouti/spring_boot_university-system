@@ -25,4 +25,8 @@ public class GroupService {
     public Group saveGroup(Group group) {
         return groupRepository.saveAndFlush(group);
     }
+
+    public void DeleteGroup(long parseLong) {
+        groupRepository.deleteById(parseLong);
+    }
 }

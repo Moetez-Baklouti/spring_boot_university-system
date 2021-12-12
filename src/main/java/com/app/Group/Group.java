@@ -18,10 +18,10 @@ public class Group {
     @Column(name = "Group_Title", nullable = false, unique = true, length = 8)
     private String group_title;
 
-    @OneToMany(mappedBy = "group", cascade = CascadeType.MERGE, orphanRemoval = true)
+    @OneToMany(mappedBy = "group", cascade = CascadeType.REMOVE)
     private List<Student> students;
 
-    @OneToMany(mappedBy = "group", cascade = CascadeType.MERGE, orphanRemoval = true)
+    @OneToMany(mappedBy = "group", cascade = CascadeType.REMOVE)
     private List<Session> sessions;
 
     public Group() {
